@@ -28,6 +28,7 @@ Description here.
 
 ```bash
 $ npm i egg-rabbit-house-mqtt-plugin --save
+$ yarn add egg-rabbit-house-mqtt-plugin
 ```
 
 ## Usage
@@ -45,6 +46,9 @@ exports.rabbitHouseMqttPlugin = {
 ```js
 // {app_root}/config/config.default.js
 exports.rabbitHouseMqttPlugin = {
+  port: 1883,
+  username: 'user',
+  password: '123456',
 };
 ```
 
@@ -56,7 +60,7 @@ see [config/config.default.js](config/config.default.js) for more detail.
 
 ## Questions & Suggestions
 
-Please open an issue [here](https://github.com/eggjs/egg/issues).
+Please open an issue [here](https://github.com/legends-killer/egg-rabbit-house-mqtt-plugin/issues).
 
 ## License
 

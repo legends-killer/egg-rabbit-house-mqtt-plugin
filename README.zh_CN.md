@@ -60,7 +60,14 @@ exports.rabbitHouseMqttPlugin = {
 - How: 描述这个插件是怎样使用的，具体的示例代码，甚至提供一个完整的示例，并给出链接。
 
 ## 详细配置
-
+```js
+// {app_root}/config/config.default.js
+exports.rabbitHouseMqttPlugin = {
+  port: 1883,
+  username: 'user',
+  password: '123456',
+};
+```
 请到 [config/config.default.js](config/config.default.js) 查看详细配置项说明。
 
 ## 单元测试
@@ -69,7 +76,7 @@ exports.rabbitHouseMqttPlugin = {
 
 ## 提问交流
 
-请到 [egg issues](https://github.com/eggjs/egg/issues) 异步交流。
+请到 [egg issues](https://github.com/legends-killer/egg-rabbit-house-mqtt-plugin/issues) 异步交流。
 
 ## License
 
