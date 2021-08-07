@@ -18,10 +18,12 @@ const createMqttServer = (config, app) => {
   };
   // 客户端连接
   aedes.on('client', function(client) {
+    app.logger.info('Client Connected: \x1b[33m' + (client ? client.id : client) + '\x1b[0m', 'to broker', aedes.id);
     console.log('Client Connected: \x1b[33m' + (client ? client.id : client) + '\x1b[0m', 'to broker', aedes.id);
   });
   // 客户端断开
   aedes.on('clientDisconnect', function(client) {
+    app.logger.info('Client Disconnected: \x1b[31m' + (client ? client.id : client) + '\x1b[0m', 'to broker', aedes.id);
     console.log('Client Disconnected: \x1b[31m' + (client ? client.id : client) + '\x1b[0m', 'to broker', aedes.id);
   });
   server.listen(config.port, function() {
