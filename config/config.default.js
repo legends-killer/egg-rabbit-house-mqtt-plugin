@@ -16,10 +16,12 @@ exports.rabbitHouseMqttPlugin = {
     password: '123456',
   },
   /**
+   * @property {String} host
    * @property {String} clientId
    * @property {String} username
    * @property {String} password
    * @property {String} protocolId
+   * @property {String} protocol
    * @property {Number} keepalive
    * @property {Number} protocolVersion
    * @property {boolean} clean
@@ -29,10 +31,12 @@ exports.rabbitHouseMqttPlugin = {
    * @property {Object} options
    */
   client: {
+    host: '127.0.0.1',
     clientId: 'egg',
     username: 'user',
     password: '123456',
     options: {
+      protocol: 'mqtt',
       keepalive: 60,
       protocolId: 'MQTT',
       protocolVersion: 4,

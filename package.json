@@ -1,6 +1,6 @@
 {
   "name": "egg-rabbit-house-mqtt-plugin",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "mqtt server attached to other apps",
   "eggPlugin": {
     "name": "rabbitHouseMqttPlugin"
@@ -11,7 +11,9 @@
     "egg-plugin"
   ],
   "dependencies": {
-    "aedes": "^0.46.1"
+    "aedes": "^0.46.1",
+    "is-type-of": "^1.2.1",
+    "mqtt": "^4.2.8"
   },
   "types": "index.d.ts",
   "devDependencies": {

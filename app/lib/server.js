@@ -10,7 +10,7 @@ const assert = require('assert');
  * @param  {Application} app 当前的应用
  * @return {Object}          返回创建的mqttServer
  */
-export function createMqttServer(config, app) {
+module.exports.createMqttServer = function(config, app) {
   assert(config.port && config.username && config.password);
   // 鉴权
   aedes.authenticate = function(_client, username, password, callback) {
@@ -31,4 +31,4 @@ export function createMqttServer(config, app) {
   });
   app.coreLogger.info(`[egg-rabbit-house-mqtt-server] mqtt server started at localhost:${config.port}`);
   return { aedes, server };
-}
+};
