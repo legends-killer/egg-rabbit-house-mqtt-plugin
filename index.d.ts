@@ -20,6 +20,7 @@ declare module "egg" {
   interface EggAppConfig {
     rabbitHouseMqttPlugin: {
       server: {
+        host: string
         port: number
         username: string
         password: string

@@ -26,8 +26,8 @@ module.exports.createMqttServer = function(config, app) {
     app.logger.info('Client Disconnected: \x1b[31m' + (client ? client.id : client) + '\x1b[0m', 'to broker', aedes.id);
     console.log('Client Disconnected: \x1b[31m' + (client ? client.id : client) + '\x1b[0m', 'to broker', aedes.id);
   });
-  server.listen(config.port, function() {
-    console.log('server started and listening on port ', config.port);
+  server.listen(config.port, config.host, function() {
+    console.log('server started and listening at', config.host, ':', config.port);
   });
   app.coreLogger.info(`[egg-rabbit-house-mqtt-server] mqtt server started at localhost:${config.port}`);
   return { aedes, server };

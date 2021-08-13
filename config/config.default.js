@@ -6,11 +6,13 @@
  */
 exports.rabbitHouseMqttPlugin = {
   /**
+   * @param {String} host The MQTT Server host
+   * @property {Number} port The MQTT Server Port
    * @property {String} username The MQTT Server User Name
    * @property {String} password The MQTT Server Password
-   * @property {Number} port The MQTT Server Port
    */
   server: {
+    host: '0.0.0.0',
     port: 1883,
     username: 'user',
     password: '123456',
