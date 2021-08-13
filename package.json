@@ -1,6 +1,6 @@
 {
   "name": "egg-rabbit-house-mqtt-plugin",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "mqtt server attached to other apps",
   "eggPlugin": {
     "name": "rabbitHouseMqttPlugin"
