@@ -18,6 +18,7 @@ module.exports.createMqttClient = function(config, app) {
   assert(is.string(config.clientId), 'config.clientId must be String!');
 
   const mqttClient = mqtt.connect(config.host, {
+    host : config.host,
     protocol: 'mqtt',
     clientId: config.clientId,
     username: config.username,
