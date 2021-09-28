@@ -6,7 +6,8 @@ import { Application } from "egg"
 
 // use decleraion merging to attach route method on mqtt client
 interface MClient extends Client {
-  route(topic: string | string[], handler: Application.handler): Void
+  route(topic: string | string[]): Void
+  handle(handler: Application.handler): Void
 }
 declare module "egg" {
   interface Application {

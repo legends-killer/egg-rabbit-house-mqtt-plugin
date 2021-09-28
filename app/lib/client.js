@@ -17,8 +17,11 @@ module.exports.createMqttClient = function(config, app) {
   assert(is.string(config.password), 'config.password must be String!');
   assert(is.string(config.clientId), 'config.clientId must be String!');
 
+  let topicAuth = [];
+  const msgMiddlewares = [];
+
   const mqttClient = mqtt.connect(config.host, {
-    host : config.host,
+    host: config.host,
     protocol: 'mqtt',
     clientId: config.clientId,
     username: config.username,
@@ -47,18 +50,18 @@ module.exports.createMqttClient = function(config, app) {
   mqttClient.on('reconnect', () => {
     app.coreLogger.error('[egg-rabbit-house-mqtt-client] reconnect clientid:%s', config.clientId);
   });
+
   /**
    * 通过路由的方式添加订阅，拦截发布，自定义中间件处理，最后注入进ctx
    * @version 1.0.0
    * @param {string | string[]} topic 订阅topic
-   * @param {Object} handler handler，这里传入一个controller，经过中间件之后会将封装好的ctx送入
    */
-  mqttClient.route = (topic, handler) => {
+  mqttClient.route = topic => {
     mqttClient.subscribe(topic);
     app.coreLogger.info('[egg-rabbit-house-mqtt-client] subscribe clientid:%s topic:%s', config.clientId, topic);
 
-    const msgMiddlewares = [];
     const msgMiddlewareConfig = config.msgMiddleware;
+    msgMiddlewares.length = 0;
     if (msgMiddlewareConfig) {
       assert(is.array(msgMiddlewareConfig), 'config.msgMiddleware must be Array!');
       for (const middleware of msgMiddlewareConfig) {
@@ -66,12 +69,17 @@ module.exports.createMqttClient = function(config, app) {
         msgMiddlewares.push(app.mqtt.middleware[middleware]);
       }
     }
-    const topicAuth = topic.map(t => {
+    topicAuth = topic.map(t => {
       return new RegExp('^' + t.replace('$queue/', '').replace(/^\$share\/([A-Za-z0-9]+)\//, '').replace(/([\[\]\?\(\)\\\\$\^\*\.|])/g, '\\$1')
         .replace(/\+/g, '[^/]+')
         .replace(/\/#$/, '(\/.*)?') + '$');
     });
+  };
 
+  /**
+   * @param {Object} handler handler，这里传入一个controller，经过中间件之后会将封装好的ctx送入
+   */
+  mqttClient.handle = handler => {
     mqttClient.on('message', (top, message) => {
       let isAuthOk = false;
       for (const tAuth of topicAuth) {
@@ -80,7 +88,7 @@ module.exports.createMqttClient = function(config, app) {
       if (!isAuthOk) return;
 
       const msg = Buffer.from(message).toString('utf8');
-      const request = { topic: top, msg, socket: { remoteAddress: `topic:${topic} ` }, method: 'sub', userId: `${config.username}:${config.clientId}` };
+      const request = { topic: top, msg, socket: { remoteAddress: `topic:${top} ` }, method: 'sub', userId: `${config.username}:${config.clientId}` };
 
       msgMiddleware(app, request, msgMiddlewares, () => {
         const ctx = app.createContext(request, new http.ServerResponse(request));
